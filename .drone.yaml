@@ -1,0 +1,108 @@
+---
+kind: pipeline
+type: docker
+name: Testing Python CI/CD
+
+steps:
+  - name: Precheck Configuration NAPALM DRY RUN to DEV
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - python dmvpn.py --dry_run --device_target dev
+    when:
+      branch:
+        exclude:
+          - master
+
+  - name: Deploy Configuration to DEV
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - python dmvpn.py --no_dry_run --device_target dev
+    when:
+      branch:
+        exclude:
+          - master
+
+  - name: Sleep 5 seconds DEV
+    image: gt732/netauto
+    commands:
+      - sleep 5
+    when:
+      branch:
+        exclude:
+          - master
+
+  - name: Test DMVPN DEV
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - pytest tests/test_dmvpn.py --device_target dev -s
+    when:
+      branch:
+        exclude:
+          - master
+
+  - name: Precheck Configuration NAPALM DRY RUN to PROD
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - python dmvpn.py --dry_run --device_target prod
+    when:
+      branch:
+        - master
+
+  - name: Deploy Configuration to PROD
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - python dmvpn.py --no_dry_run --device_target prod
+    when:
+      branch:
+        - master
+
+  - name: Sleep 5 seconds PROD
+    image: gt732/netauto
+    commands:
+      - sleep 5
+    when:
+      branch:
+        - master
+
+  - name: Test DMVPN PROD
+    image: gt732/netauto
+    environment:
+      USERNAME:
+        from_secret: NORNIR_USERNAME
+      PASSWORD:
+        from_secret: NORNIR_PASSWORD
+    commands:
+      - pytest tests/test_dmvpn.py --device_target prod -s
+    when:
+      branch:
+        - master
+
+trigger:
+  event:
+    exclude:
+      - pull_request
