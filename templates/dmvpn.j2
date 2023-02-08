@@ -1,0 +1,33 @@
+{% if "dmvpn" in host.facts %}
+crypto keyring DMVPN  
+  pre-shared-key address 0.0.0.0 0.0.0.0 key cisco
+crypto isakmp policy 10
+ encr 3des
+ hash md5
+ authentication pre-share
+crypto isakmp profile DMVPN
+   keyring DMVPN
+   match identity address 0.0.0.0 
+crypto ipsec transform-set DMVPN esp-3des esp-md5-hmac 
+ mode transport
+crypto ipsec profile DMVPN
+ set transform-set DMVPN 
+ set isakmp-profile DMVPN
+{% if host.facts.dmvpn.type == "hub" %}
+interface Tunnel0
+ ip address {{ host.group_facts.dmvpn.hub.tunnel_ip }} {{ host.group_facts.dmvpn.hub.tunnel_mask }}
+ ip nhrp redirect
+{% elif  host.facts.dmvpn.type == "spoke" %}
+interface Tunnel0
+ ip address {{ host.facts.dmvpn.tunnel_ip }} {{ host.facts.dmvpn.tunnel_mask }}
+ ip nhrp nhs {{ host.group_facts.dmvpn.hub.tunnel_ip }} nbma {{ host.group_facts.dmvpn.hub.global_ip }} multicast
+{% endif %}
+ ip mtu 1400
+ ip nhrp authentication {{ host.group_facts.dmvpn.authentication }}
+ ip nhrp network-id 1
+ ip tcp adjust-mss 1360
+ tunnel source GigabitEthernet0/3
+ tunnel mode gre multipoint
+ tunnel protection ipsec profile {{ host.group_facts.dmvpn.ipsec.name }}
+ tunnel key 1
+{% endif %}

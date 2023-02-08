@@ -1,0 +1,14 @@
+{% if "dmvpn" in host.facts %}
+router bgp 65001
+{% if host.facts.dmvpn.type == "hub" %}
+ bgp listen range 172.16.0.0/24 peer-group {{ host.facts.bgp.peer_group }}
+ neighbor SPOKES peer-group
+ neighbor SPOKES remote-as {{ host.group_facts.bgp.as }}
+{% elif  host.facts.dmvpn.type == "spoke" %}
+ redistribute connected
+ neighbor {{ host.group_facts.dmvpn.hub.tunnel_ip }} remote-as {{ host.group_facts.bgp.as }}
+ neighbor {{ host.group_facts.dmvpn.hub.tunnel_ip }} update-source Tunnel0
+{% endif %}
+ bgp log-neighbor-changes
+ network 0.0.0.0
+{% endif %}

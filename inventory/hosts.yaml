@@ -1,0 +1,40 @@
+---
+AK-RTR-PROD:
+  hostname: 192.168.0.238
+  groups:
+    - cisco-ios
+    - prod
+  data:
+    site: usa
+    region: west
+    dmvpn: yes
+
+NJ-RTR-HUB-PROD:
+  hostname: 192.168.0.239
+  groups:
+    - cisco-ios
+    - prod
+  data:
+    site: usa
+    region: east
+    dmvpn: yes
+
+AK-RTR-TEST:
+  hostname: 192.168.0.237
+  groups:
+    - cisco-ios
+    - dev
+  data:
+    site: usa
+    region: west
+    dmvpn: yes
+
+NJ-RTR-HUB-TEST:
+  hostname: 192.168.0.236
+  groups:
+    - cisco-ios
+    - dev
+  data:
+    site: usa
+    region: east
+    dmvpn: yes

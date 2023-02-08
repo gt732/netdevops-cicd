@@ -1,0 +1,5 @@
+---
+dmvpn:
+  type: spoke
+  tunnel_ip: 172.16.0.4
+  tunnel_mask: 255.255.255.0

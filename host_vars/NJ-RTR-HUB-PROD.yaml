@@ -1,0 +1,6 @@
+---
+dmvpn:
+  type: hub
+
+bgp:
+  peer_group: SPOKES

@@ -1,0 +1,9 @@
+---
+connection_options:
+  scrapli:
+    platform: cisco_iosxe
+    extras:
+      auth_strict_key: False
+      transport: system
+      transport_options:
+        open_cmd: ["-o", "KexAlgorithms=+diffie-hellman-group14-sha1"]
