@@ -7,7 +7,7 @@ My first netdevops ci-cd pipeline using the following tools, shoutout to @JulioP
 
 
 ## Topology
-![alt text](https://i.imgur.com/09Ettlz.png)
+![alt text](https://i.imgur.com/2zN5XxH.png)
 
 ## Steps
 - Clone the main repo
