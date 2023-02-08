@@ -19,16 +19,16 @@ My first netdevops ci-cd pipeline using the following tools, shoutout to @JulioP
 - If checks pass and PR is merged, it triggers the last CI/CD pipeline
 - Napalm dry run, push changes, and post validation check with pytest to PROD devices.
 
-## New PR created, CI pipeline triggered to TEST Devices
+## Starting the CI/CD pipeline by creating a new PR
 ![alt text](https://i.imgur.com/pY9SoR5.png)
 
-## Napalm Dry-Run Validation to TEST Devices
+## Pre-Check Napalm Dry-Run Validation to TEST Devices
 ![alt text](https://i.imgur.com/6dZIoHz.png)
 
-## Napalm Push Config to TEST Devices
+## Pre-Check Napalm Push Config to TEST Devices
 ![alt text](https://i.imgur.com/GerhQgr.png)
 
-## Pytest script to check if all DMVPN Tunnels are UP TEST Devices
+## Pre-Check Pytest script to check if all DMVPN Tunnels are UP TEST Devices
 ![alt text](https://i.imgur.com/T1IX4zd.png)
 
 ## PR request accepted and merged to master, triggers CD pipeline
@@ -38,7 +38,7 @@ My first netdevops ci-cd pipeline using the following tools, shoutout to @JulioP
 ![alt text](https://i.imgur.com/eKyYEjf.png)
 
 ## Napalm Push Config to PROD Devices
-![alt text](https://i.imgur.com/eKyYEjf.png)
+![alt text](https://i.imgur.com/6qywUra.png)
 
 ## Finally, Pytest to check DMVPN Tunnel Status on PROD Devices
 ![alt text](https://i.imgur.com/cDNnCMS.png)
